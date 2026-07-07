@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CML Kottiyoor | Cherupushpa Mission League</title>
+  
+  <!-- FontAwesome Icons & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-red: #B31B1B;
+      --gold: #E5A93C;
+      --dark-bg: #121212;
+      --dark-surface: #1E1E1E;
+      --light-bg: #FDFBF7;
+      --white: #FFFFFF;
+      --text-dark: #1E1E1E;
+      --text-light: #FDFBF7;
+      --text-muted: #666666;
+      --border-color: #E0DCD5;
+      --pink-tint: #FDF2F2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .serif-font {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .subtitle-accent {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--primary-red);
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    /* Fixed Admin Bar */
+    #admin-bar {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #222;
+      color: #fff;
+      padding: 10px 15px;
+      z-index: 10000;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    #admin-bar button {
+      background: var(--primary-red);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      margin-left: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    #admin-bar button.btn-cancel {
+      background: #555;
+    }
+    #admin-bar button:hover {
+      opacity: 0.9;
+    }
+
+    /* Header & Navigation */
+    header {
+      background-color: var(--white);
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-logo-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border-color);
+    }
+
+    .header-text h1 {
+      font-size: 18px;
+      color: var(--primary-red);
+      font-weight: bold;
+      line-height: 1.2;
+    }
+
+    .header-text p {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .menu-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: var(--text-dark);
+      cursor: pointer;
+    }
+
+    /* Fullscreen Overlay Navigation */
+    .nav-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.98);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .close-nav-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--text-dark);
+    }
+
+    .nav-overlay a {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      text-decoration: none;
+      color: var(--text-dark);
+      transition: color 0.2s;
+    }
+
+    .nav-overlay a:hover {
+      color: var(--primary-red);
+    }
+
+    .admin-login-btn {
+      margin-top: 20px;
+      background-color: var(--primary-red);
+      color: white !important;
+      padding: 10px 30px;
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif !important;
+      font-size: 15px !important;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--text-light);
+      padding: 20px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+    }
+
+    .hero-logo-container {
+      margin-bottom: 15px;
+    }
+
+    .hero-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: white;
+      padding: 4px;
+      display: inline-block;
+    }
+
+    .hero h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .hero h2 {
+      font-size: 38px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .hero h2 span {
+      color: var(--gold);
+    }
+
+    .hero p {
+      font-size: 14px;
+      letter-spacing: 1px;
+      margin-bottom: 25px;
+      color: #ddd;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-solid {
+      background-color: var(--primary-red);
+      color: white;
+      border: 1px solid var(--primary-red);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: white;
+      border: 1px solid white;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .scroll-down {
+      position: absolute;
+      bottom: 20px;
+      z-index: 2;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.7);
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .scroll-down i {
+      display: block;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    /* Pillars Section (Dark) */
+    .pillars-section {
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .pillar-card {
+      padding: 20px;
+    }
+
+    .pillar-icon-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid var(--primary-red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px auto;
+      color: var(--primary-red);
+      font-size: 22px;
+    }
+
+    .pillar-card h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .pillar-card p {
+      font-size: 13px;
+      color: #aaa;
+    }
+
+    /* Generic Section Style */
+    .section {
+      padding: 60px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-header h2 {
+      font-size: 32px;
+      color: var(--text-dark);
+      margin-top: 5px;
+    }
+
+    .decorator-lines {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .decorator-lines span {
+      height: 1px;
+      width: 40px;
+      background-color: var(--primary-red);
+    }
+
+    /* About Section */
+    .about-img {
+      width: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+      margin-bottom: 30px;
+      height: 350px;
+    }
+
+    .about-text {
+      font-size: 15px;
+      color: var(--text-dark);
+      margin-bottom: 25px;
+    }
+
+    /* Motto Card */
+    .motto-card {
+      background-color: var(--pink-tint);
+      border-left: 4px solid var(--primary-red);
+      padding: 20px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 30px;
+    }
+
+    .motto-card h5 {
+      color: var(--primary-red);
+      font-size: 12px;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .motto-card p {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-style: italic;
+      color: var(--text-dark);
+    }
+
+    /* Pill Badges Grid */
+    .pill-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .pill-item {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--primary-red);
+      font-weight: 600;
+    }
+
+    .patron-quote {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      font-style: italic;
+    }
+
+    /* Team/Member Cards (Syndicate & Executive) */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .member-card {
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      text-align: center;
+      transition: box-shadow 0.2s;
+    }
+
+    .member-img-container {
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .member-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .member-info {
+      padding: 15px 10px;
+    }
+
+    .member-info .role {
+      font-size: 10px;
+      color: var(--primary-red);
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .member-info .name {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      color: var(--text-dark);
+      font-weight: bold;
+    }
+
+    /* Events Section */
+    .events-list {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .event-card {
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+
+    .event-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .event-content {
+      padding: 20px;
+    }
+
+    .event-date {
+      color: var(--primary-red);
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .event-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: var(--text-dark);
+    }
+
+    .event-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Gallery Section */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .gallery-item {
+      aspect-ratio: 1;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      position: relative;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Footer Style */
+    footer {
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+      padding: 50px 20px 30px 20px;
+    }
+
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .footer-logo-title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .footer-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+
+    .footer-title h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    .footer-title p {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      color: #999;
+      text-transform: uppercase;
+    }
+
+    .footer-desc {
+      font-size: 13px;
+      color: #ccc;
+      margin-bottom: 30px;
+    }
+
+    .footer-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #ccc;
+    }
+
+    .contact-item i {
+      color: var(--primary-red);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--dark-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .social-icon:hover {
+      background: var(--primary-red);
+    }
+
+    .copyright {
+      font-size: 11px;
+      color: #666;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 20px;
+    }
+
+    .copyright p {
+      margin-bottom: 5px;
+    }
+
+    /* Admin Inline Settings */
+    .admin-editable {
+      position: relative;
+    }
+    .admin-editable:hover {
+      outline: 2px dashed var(--primary-red);
+    }
+
+    .image-edit-overlay {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+      z-index: 10;
+      display: none;
+    }
+    .admin-active .image-edit-overlay {
+      display: block;
+    }
+
+    .admin-btn-container {
+      display: none;
+      justify-content: center;
+      margin: 15px 0;
+    }
+    .admin-active .admin-btn-container {
+      display: flex;
+    }
+
+    .admin-add-btn {
+      background: var(--primary-red);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .delete-card-btn {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      background: red;
+      color: white;
+      border: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10;
+      font-weight: bold;
+      display: none;
+    }
+    .admin-active .delete-card-btn {
+      display: block;
+    }
+
+    /* Modal Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 15000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-content {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 450px;
+      color: var(--text-dark);
+    }
+    .modal-content h3 {
+      margin-bottom: 15px;
+      color: var(--primary-red);
+    }
+    .modal-content label {
+      font-size: 12px;
+      font-weight: 600;
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+    .modal-content input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+    }
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .modal-buttons button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .modal-buttons button.btn-apply {
+      background: var(--primary-red);
+      color: white;
+    }
+    .modal-buttons button.btn-close {
+      background: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ADMIN NOTIFICATION BAR -->
+  <div id="admin-bar">
+    <div><strong>Admin Mode Active</strong> (Changes auto-save locally)</div>
+    <div>
+      <button onclick="exportCode()">Export HTML File</button>
+      <button onclick="exitAdminMode()" class="btn-cancel">Exit Mode</button>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-logo-section">
+      <img src="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=200&h=200&q=80" alt="Logo" class="logo-img" id="site-logo">
+      <div class="header-text">
+        <h1 contenteditable="false" class="editable-text" id="header-title">CML Kottiyoor</h1>
+        <p contenteditable="false" class="editable-text" id="header-subtitle">CHUNGAKKUNNU MEGHALA</p>
+      </div>
+    </div>
+    <button class="menu-btn" onclick="toggleNav(true)">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </header>
+
+  <!-- OVERLAY MENU -->
+  <div class="nav-overlay" id="nav-overlay">
+    <button class="close-nav-btn" onclick="toggleNav(false)"><i class="fa-solid fa-xmark"></i></button>
+    <a href="#home" onclick="toggleNav(false)">Home</a>
+    <a href="#about" onclick="toggleNav(false)">About</a>
+    <a href="#syndicate" onclick="toggleNav(false)">Syndicate</a>
+    <a href="#executives" onclick="toggleNav(false)">Executives</a>
+    <a href="#events" onclick="toggleNav(false)">Events</a>
+    <a href="#gallery" onclick="toggleNav(false)">Gallery</a>
+    <a href="#contact" onclick="toggleNav(false)">Contact</a>
+    <button class="admin-login-btn" onclick="promptAdminLogin()">Admin Login</button>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-logo-container admin-editable">
+        <img src="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=200&h=200&q=80" alt="CML logo" class="hero-logo" id="hero-logo-img">
+        <button class="image-edit-overlay" onclick="triggerImageEdit('hero-logo-img')">Edit</button>
+      </div>
+      <h3 contenteditable="false" class="editable-text" id="hero-diocese">MANANTHAVADY DIOCESE</h3>
+      <h2 contenteditable="false" class="editable-text" id="hero-title">CML <span>KOTTIYOOR</span></h2>
+      <p contenteditable="false" class="editable-text" id="hero-subtitle">Cherupushpa Mission League<br><span style="font-size: 11px;">CHUNGAKKUNNU MEGHALA</span></p>
+      <div class="hero-buttons">
+        <a href="#about" class="btn btn-solid">Discover CML</a>
+        <a href="#gallery" class="btn btn-outline">View Gallery</a>
+      </div>
+    </div>
+    <div class="scroll-down" onclick="document.getElementById('pillars').scrollIntoView({behavior: 'smooth'})">
+      Scroll <i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <button class="image-edit-overlay" style="top:auto; bottom:20px; right:20px;" onclick="triggerImageEdit('home', true)">Change Hero Background</button>
+  </section>
+
+  <!-- PILLARS SECTION -->
+  <section class="pillars-section" id="pillars">
+    <div class="pillars-grid" id="pillars-container">
+      <!-- Generated via JavaScript -->
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="section" id="about">
+    <div class="admin-editable" style="position:relative;">
+      <img src="https://images.unsplash.com/photo-1548625361-155deee223d2?auto=format&fit=crop&w=800&q=80" alt="Church Exterior" class="about-img" id="about-img-file">
+      <button class="image-edit-overlay" onclick="triggerImageEdit('about-img-file')">Edit</button>
+    </div>
+
+    <span class="subtitle-accent contenteditable" contenteditable="false" id="about-tag">CHERUPUSHPA MISSION LEAGUE</span>
+    <h2 class="serif-font editable-text" contenteditable="false" id="about-title" style="font-size:32px; border-bottom:3px solid var(--primary-red); display:inline-block; padding-bottom:5px; margin-bottom:20px;">About CML</h2>
+    
+    <div class="about-text">
+      <p contenteditable="false" class="editable-text" id="about-p1" style="margin-bottom:15px;"></p>
+      <p contenteditable="false" class="editable-text" id="about-p2"></p>
+    </div>
+
+    <div class="motto-card">
+      <h5 contenteditable="false" class="editable-text" id="motto-header">MOTTO</h5>
+      <p contenteditable="false" class="editable-text" id="motto-body"></p>
+    </div>
+
+    <div class="pill-grid">
+      <div class="pill-item contenteditable" contenteditable="false" id="pill-1">Love</div>
+      <div class="pill-item contenteditable" contenteditable="false" id="pill-2">Sacrifice</div>
+      <div class="pill-item contenteditable" contenteditable="false" id="pill-3">Service</div>
+      <div class="pill-item contenteditable" contenteditable="false" id="pill-4">Suffering</div>
+    </div>
+
+    <p contenteditable="false" class="patron-quote editable-text" id="patron-quote-text"></p>
+  </section>
+
+  <!-- SYNDICATE SECTION -->
+  <section class="section" id="syndicate">
+    <div class="section-header">
+      <div class="decorator-lines">
+        <span></span>
+        <span class="subtitle-accent" style="margin-bottom:0;">LEADERSHIP TEAM</span>
+        <span></span>
+      </div>
+      <h2 class="serif-font editable-text" contenteditable="false" id="syndicate-title">Our Syndicate</h2>
+      <p contenteditable="false" class="editable-text" id="syndicate-desc" style="font-size:14px; color:var(--text-muted); max-width:500px; margin: 10px auto 0 auto;"></p>
+    </div>
+
+    <div class="cards-grid" id="syndicate-grid">
+      <!-- Rendered via JavaScript -->
+    </div>
+    
+    <div class="admin-btn-container">
+      <button class="admin-add-btn" onclick="addCard('syndicate')">+ Add Syndicate Member</button>
+    </div>
+  </section>
+
+  <!-- COMMITTEE/EXECUTIVES SECTION -->
+  <section class="section" id="executives">
+    <div class="section-header">
+      <div class="decorator-lines">
+        <span></span>
+        <span class="subtitle-accent" style="margin-bottom:0;">COMMITTEE</span>
+        <span></span>
+      </div>
+      <h2 class="serif-font editable-text" contenteditable="false" id="executives-title">Executive Members</h2>
+      <p contenteditable="false" class="editable-text" id="executives-desc" style="font-size:14px; color:var(--text-muted); max-width:500px; margin: 10px auto 0 auto;"></p>
+    </div>
+
+    <div class="cards-grid" id="executives-grid">
+      <!-- Rendered via JavaScript -->
+    </div>
+
+    <div class="admin-btn-container">
+      <button class="admin-add-btn" onclick="addCard('executives')">+ Add Executive Member</button>
+    </div>
+  </section>
+
+  <!-- EVENTS SECTION -->
+  <section class="section" id="events">
+    <div class="section-header">
+      <div class="decorator-lines">
+        <span></span>
+        <span class="subtitle-accent" style="margin-bottom:0;">RECENT ACTIVITIES</span>
+        <span></span>
+      </div>
+      <h2 class="serif-font">Events & Highlights</h2>
+    </div>
+
+    <div class="events-list" id="events-list">
+      <!-- Rendered via JavaScript -->
+    </div>
+
+    <div class="admin-btn-container">
+      <button class="admin-add-btn" onclick="addEvent()">+ Add Event</button>
+    </div>
+  </section>
+
+  <!-- GALLERY SECTION -->
+  <section class="section" id="gallery">
+    <div class="section-header">
+      <div class="decorator-lines">
+        <span></span>
+        <span class="subtitle-accent" style="margin-bottom:0;">OUR MOMENTS</span>
+        <span></span>
+      </div>
+      <h2 class="serif-font">Gallery</h2>
+    </div>
+
+    <div class="gallery-grid" id="gallery-grid">
+      <!-- Rendered via JavaScript -->
+    </div>
+
+    <div class="admin-btn-container">
+      <button class="admin-add-btn" onclick="addGalleryImage()">+ Add Image to Gallery</button>
+    </div>
+  </section>
+
+  <!-- FOOTER / CONTACT -->
+  <footer id="contact">
+    <div class="footer-content">
+      <div class="footer-logo-title">
+        <img src="https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=200&h=200&q=80" alt="Footer Logo" class="footer-logo" id="footer-logo-img">
+        <div class="footer-title">
+          <h4 contenteditable="false" class="editable-text" id="footer-title-txt">CML Kottiyoor</h4>
+          <p contenteditable="false" class="editable-text" id="footer-subtitle-txt">CHUNGAKKUNNU MEGHALA</p>
+        </div>
+      </div>
+      <p contenteditable="false" class="footer-desc editable-text" id="footer-desc-txt"></p>
+
+      <div class="footer-contact">
+        <div class="contact-item">
+          <i class="fa-solid fa-location-dot"></i>
+          <span contenteditable="false" class="editable-text" id="footer-address"></span>
+        </div>
+        <div class="contact-item">
+          <i class="fa-solid fa-envelope"></i>
+          <span contenteditable="false" class="editable-text" id="footer-email"></span>
+        </div>
+        <div class="contact-item">
+          <i class="fa-solid fa-phone"></i>
+          <span contenteditable="false" class="editable-text" id="footer-phone"></span>
+        </div>
+      </div>
+
+      <div class="social-links">
+        <a href="#" class="social-icon" id="link-instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="social-icon" id="link-facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" class="social-icon" id="link-youtube"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+
+      <div class="copyright">
+        <p>© <span id="current-year">2026</span> CML Kottiyoor. All rights reserved.</p>
+        <p>Mananthavady Diocese — Chungakkunnu Meghala</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- IMAGE EDIT MODAL -->
+  <div class="modal" id="image-modal">
+    <div class="modal-content">
+      <h3>Change Image</h3>
+      
+      <label>Option 1: Upload from device</label>
+      <input type="file" id="local-file-input" accept="image/*">
+
+      <div style="text-align:center; margin:15px 0; font-weight:600; color:#888;">— OR —</div>
+
+      <label>Option 2: Paste Image URL</label>
+      <input type="text" id="web-url-input" placeholder="https://example.com/image.jpg">
+
+      <div class="modal-buttons">
+        <button class="btn-close" onclick="closeImageModal()">Cancel</button>
+        <button class="btn-apply" onclick="applyImageEdit()">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // DEFAULT DATA (Loaded if local storage is empty)
+    const defaultData = {
+      header: {
+        title: "CML Kottiyoor",
+        subtitle: "CHUNGAKKUNNU MEGHALA",
+        logo: "https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=200&h=200&q=80"
+      },
+      hero: {
+        diocese: "MANANTHAVADY DIOCESE",
+        title: "CML KOTTIYOOR",
+        subtitle: "Cherupushpa Mission League\nCHUNGAKKUNNU MEGHALA",
+        bgImg: "https://images.unsplash.com/photo-1478147427282-58a87a120781?auto=format&fit=crop&w=1200&q=80",
+        logo: "https://images.unsplash.com/photo-1545128485-c400e7702796?auto=format&fit=crop&w=200&h=200&q=80"
+      },
+      pillars: [
+        { icon: "fa-church", title: "Since 1947", desc: "A living missionary movement of the Syro Malabar Church" },
+        { icon: "fa-heart", title: "Love & Service", desc: "Rooted in charity, prayer and community" },
+        { icon: "fa-book-open", title: "The Word", desc: "Spreading the message of the Gospel to every heart" },
+        { icon: "fa-fire", title: "The Flame", desc: "A lamp of faith carried by children and youth" }
+      ],
+      about: {
+        img: "https://images.unsplash.com/photo-1548625361-155deee223d2?auto=format&fit=crop&w=800&q=80",
+        tag: "CHERUPUSHPA MISSION LEAGUE",
+        title: "About CML",
+        p1: "Cherupushpa Mission League (CML) is one of the mission ventures of the Syro Malabar Church. It was started on October 3, 1947, as a lay initiative to promote the missionary zeal among the members of the Church, especially children and youngsters. Two visionaries P. C. Abraham Pallattukunnel (popularly known as Kunjettan) and Fr Joseph Maliparampil formed this pious organisation.",
+        p2: "Cherupushpa Mission League is a lay apostolic organisation started in 1947 which promotes the missionary cause of the Catholic Church. The pioneers were Rev. Fr Joseph Maliparampil, the then assistant parish priest of St Mary's Church, Bharanganam and P. C. Abraham Pallattukunnel. The then Metropolitan of Changanassery Bishop James Kalacherry gave the official recognition to it. The official inauguration was on 3 October 1947 on the occasion of the centenary of the death anniversary of Little Flower of Lisieux.",
+        mottoHeader: "MOTTO",
+        mottoBody: '"Your own sons, Oh India, will be the heralds of your salvation" (Filii tui India, administri tibi salutis) — the words of Pope Leo XIII is taken as the motto.',
+        pill1: "Love",
+        pill2: "Sacrifice",
+        pill3: "Service",
+        pill4: "Suffering",
+        patronQuote: "Little Flower of Lisieux is the chief patron saint of CML. Other patrons are St. Thomas the Apostle, St. Francis Xavier and St. Alphonsama."
+      },
+      syndicate: {
+        title: "Our Syndicate",
+        desc: "The dedicated members serving CML Kottiyoor unit, Chungakkunnu Meghala.",
+        members: [
+          { role: "GUARDIAN", name: "Rev. Fr. Vicar", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&h=500&q=80" },
+          { role: "DIRECTOR", name: "Rev. Fr. Director", img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&h=500&q=80" },
+          { role: "ANIMATOR", name: "Sr. Animator", img: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&h=500&q=80" },
+          { role: "PRESIDENT", name: "President Name", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&h=500&q=80" },
+          { role: "VICE PRESIDENT", name: "Vice President Name", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&h=500&q=80" },
+          { role: "SECRETARY", name: "Secretary Name", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&h=500&q=80" }
+        ]
+      },
+      executives: {
+        title: "Executive Members",
+        desc: "Active executive members of CML Kottiyoor supporting the mission of the community.",
+        members: [
+          { role: "EXECUTIVE MEMBER", name: "Member One", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&h=500&q=80" },
+          { role: "EXECUTIVE MEMBER", name: "Member Two", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&h=500&q=80" },
+          { role: "EXECUTIVE MEMBER", name: "Member Three", img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&h=500&q=80" },
+          { role: "EXECUTIVE MEMBER", name: "Member Four", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&h=500&q=80" }
+        ]
+      },
+      events: [
+        { date: "OCT 03, 2025", title: "Annual CML Day Celebration", desc: "CML Kottiyoor unit celebrated the 78th anniversary of Cherupushpa Mission League with holy mass, cultural programs and prayer.", img: "https://images.unsplash.com/photo-1478147427282-58a87a120781?auto=format&fit=crop&w=800&q=80" },
+        { date: "SEP 21, 2025", title: "Mission Sunday", desc: "Members of Chungakkunnu Meghala joined the mission Sunday rally to promote missionary awareness in the diocese.", img: "https://images.unsplash.com/photo-1510076857177-74700262e4cc?auto=format&fit=crop&w=800&q=80" },
+        { date: "SEP 05, 2025", title: "Charity Drive - Onam", desc: "The unit distributed food kits and clothes to the needy families of Kottiyoor panchayath during Onam season.", img: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80" },
+        { date: "AUG 15, 2025", title: "Vocation Camp", desc: "A two day vocation camp was organized for the CML children to nurture the missionary spirit and priestly vocations.", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" }
+      ],
+      gallery: [
+        "https://images.unsplash.com/photo-1478147427282-58a87a120781?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1548625361-155deee223d2?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=500&q=80",
+        "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=500&q=80"
+      ],
+      footer: {
+        desc: "A community of Cherupushpa Mission League — rooted in faith, love, sacrifice, service & suffering.",
+        address: "St. Little Flower Parish, Kottiyoor, Kannur, Kerala",
+        email: "cmlkottiyoor@gmail.com",
+        phone: "+91 - 00000 00000",
+        instagram: "#",
+        facebook: "#",
+        youtube: "#"
+      }
+    };
+
+    let siteData = {};
+    let isAdmin = false;
+    let imageTargetElement = null;
+    let isBgImageTarget = false;
+
+    // INITIALIZATION
+    window.onload = function() {
+      // Load saved state or default
+      const saved = localStorage.getItem('cml_kottiyoor_data');
+      if (saved) {
+        try {
+          siteData = JSON.parse(saved);
+        } catch(e) {
+          siteData = {...defaultData};
+        }
+      } else {
+        siteData = {...defaultData};
+      }
+      
+      document.getElementById('current-year').innerText = new Date().getFullYear();
+      renderAll();
+    };
+
+    // RENDER FUNCTIONS
+    function renderAll() {
+      // Setup Text
+      setupTextField('header-title', siteData.header.title);
+      setupTextField('header-subtitle', siteData.header.subtitle);
+      setupTextField('hero-diocese', siteData.hero.diocese);
+      setupTextField('hero-title', siteData.hero.title);
+      setupTextField('hero-subtitle', siteData.hero.subtitle);
+      setupTextField('about-tag', siteData.about.tag);
+      setupTextField('about-title', siteData.about.title);
+      setupTextField('about-p1', siteData.about.p1);
+      setupTextField('about-p2', siteData.about.p2);
+      setupTextField('motto-header', siteData.about.mottoHeader);
+      setupTextField('motto-body', siteData.about.mottoBody);
+      setupTextField('pill-1', siteData.about.pill1);
+      setupTextField('pill-2', siteData.about.pill2);
+      setupTextField('pill-3', siteData.about.pill3);
+      setupTextField('pill-4', siteData.about.pill4);
+      setupTextField('patron-quote-text', siteData.about.patronQuote);
+      setupTextField('syndicate-title', siteData.syndicate.title);
+      setupTextField('syndicate-desc', siteData.syndicate.desc);
+      setupTextField('executives-title', siteData.executives.title);
+      setupTextField('executives-desc', siteData.executives.desc);
+      setupTextField('footer-title-txt', siteData.header.title);
+      setupTextField('footer-subtitle-txt', siteData.header.subtitle);
+      setupTextField('footer-desc-txt', siteData.footer.desc);
+      setupTextField('footer-address', siteData.footer.address);
+      setupTextField('footer-email', siteData.footer.email);
+      setupTextField('footer-phone', siteData.footer.phone);
+
+      // Setup Images
+      document.getElementById('site-logo').src = siteData.header.logo;
+      document.getElementById('hero-logo-img').src = siteData.hero.logo;
+      document.getElementById('about-img-file').src = siteData.about.img;
+      document.getElementById('footer-logo-img').src = siteData.header.logo;
+      document.getElementById('home').style.backgroundImage = `url('${siteData.hero.bgImg}')`;
+
+      // Set social links
+      document.getElementById('link-instagram').href = siteData.footer.instagram;
+      document.getElementById('link-facebook').href = siteData.footer.facebook;
+      document.getElementById('link-youtube').href = siteData.footer.youtube;
+
+      // Render Dynamic lists
+      renderPillars();
+      renderCards('syndicate');
+      renderCards('executives');
+      renderEvents();
+      renderGallery();
+    }
+
+    function setupTextField(id, val) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.innerText = val || "";
+        el.contentEditable = isAdmin ? "true" : "false";
+        el.onblur = function() {
+          saveFieldToState(id, el.innerText);
+        };
+      }
+    }
+
+    function saveFieldToState(id, text) {
+      if (id === 'header-title') siteData.header.title = text;
+      else if (id === 'header-subtitle') siteData.header.subtitle = text;
+      else if (id === 'hero-diocese') siteData.hero.diocese = text;
+      else if (id === 'hero-title') siteData.hero.title = text;
+      else if (id === 'hero-subtitle') siteData.hero.subtitle = text;
+      else if (id === 'about-tag') siteData.about.tag = text;
+      else if (id === 'about-title') siteData.about.title = text;
+      else if (id === 'about-p1') siteData.about.p1 = text;
+      else if (id === 'about-p2') siteData.about.p2 = text;
+      else if (id === 'motto-header') siteData.about.mottoHeader = text;
+      else if (id === 'motto-body') siteData.about.mottoBody = text;
+      else if (id === 'pill-1') siteData.about.pill1 = text;
+      else if (id === 'pill-2') siteData.about.pill2 = text;
+      else if (id === 'pill-3') siteData.about.pill3 = text;
+      else if (id === 'pill-4') siteData.about.pill4 = text;
+      else if (id === 'patron-quote-text') siteData.about.patronQuote = text;
+      else if (id === 'syndicate-title') siteData.syndicate.title = text;
+      else if (id === 'syndicate-desc') siteData.syndicate.desc = text;
+      else if (id === 'executives-title') siteData.executives.title = text;
+      else if (id === 'executives-desc') siteData.executives.desc = text;
+      else if (id === 'footer-title-txt') siteData.header.title = text;
+      else if (id === 'footer-subtitle-txt') siteData.header.subtitle = text;
+      else if (id === 'footer-desc-txt') siteData.footer.desc = text;
+      else if (id === 'footer-address') siteData.footer.address = text;
+      else if (id === 'footer-email') siteData.footer.email = text;
+      else if (id === 'footer-phone') siteData.footer.phone = text;
+      
+      saveToStorage();
+    }
+
+    // Render Pillars
+    function renderPillars() {
+      const container = document.getElementById('pillars-container');
+      container.innerHTML = "";
+      siteData.pillars.forEach((p, idx) => {
+        container.innerHTML += `
+          <div class="pillar-card">
+            <div class="pillar-icon-circle">
+              <i class="fa-solid ${p.icon}"></i>
+            </div>
+            <h4 contenteditable="${isAdmin}" onblur="updatePillar(${idx}, 'title', this.innerText)">${p.title}</h4>
+            <p contenteditable="${isAdmin}" onblur="updatePillar(${idx}, 'desc', this.innerText)">${p.desc}</p>
+          </div>
+        `;
+      });
+    }
+
+    function updatePillar(idx, key, val) {
+      siteData.pillars[idx][key] = val;
+      saveToStorage();
+    }
+
+    // Render Card Grids (Syndicate & Executives)
+    function renderCards(type) {
+      const container = document.getElementById(`${type}-grid`);
+      container.innerHTML = "";
+      const list = siteData[type].members;
+
+      list.forEach((member, idx) => {
+        const cardHtml = `
+          <div class="member-card admin-editable" style="position:relative;">
+            <button class="delete-card-btn" onclick="deleteCard('${type}', ${idx})">×</button>
+            <div class="member-img-container">
+              <img src="${member.img}" alt="${member.name}" class="member-img" id="${type}-img-${idx}">
+              <button class="image-edit-overlay" onclick="triggerImageEdit('${type}-img-${idx}')">Edit</button>
+            </div>
+            <div class="member-info">
+              <div class="role" contenteditable="${isAdmin}" onblur="updateCard('${type}', ${idx}, 'role', this.innerText)">${member.role}</div>
+              <div class="name" contenteditable="${isAdmin}" onblur="updateCard('${type}', ${idx}, 'name', this.innerText)">${member.name}</div>
+            </div>
+          </div>
+        `;
+        container.innerHTML += cardHtml;
+      });
+    }
+
+    function updateCard(type, idx, key, val) {
+      siteData[type].members[idx][key] = val;
+      saveToStorage();
+    }
+
+    function addCard(type) {
+      siteData[type].members.push({
+        role: "NEW ROLE",
+        name: "Member Name",
+        img: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&h=500&q=80"
+      });
+      saveToStorage();
+      renderCards(type);
+    }
+
+    function deleteCard(type, idx) {
+      siteData[type].members.splice(idx, 1);
+      saveToStorage();
+      renderCards(type);
+    }
+
+    // Render Events
+    function renderEvents() {
+      const container = document.getElementById('events-list');
+      container.innerHTML = "";
+      siteData.events.forEach((ev, idx) => {
+        container.innerHTML += `
+          <div class="event-card admin-editable" style="position:relative;">
+            <button class="delete-card-btn" onclick="deleteEvent(${idx})">×</button>
+            <div style="position:relative;">
+              <img src="${ev.img}" alt="Event Image" class="event-img" id="event-img-${idx}">
+              <button class="image-edit-overlay" onclick="triggerImageEdit('event-img-${idx}')">Edit</button>
+            </div>
+            <div class="event-content">
+              <div class="event-date">
+                <i class="fa-regular fa-calendar"></i>
+                <span contenteditable="${isAdmin}" onblur="updateEvent(${idx}, 'date', this.innerText)">${ev.date}</span>
+              </div>
+              <h3 class="event-title" contenteditable="${isAdmin}" onblur="updateEvent(${idx}, 'title', this.innerText)">${ev.title}</h3>
+              <p class="event-desc" contenteditable="${isAdmin}" onblur="updateEvent(${idx}, 'desc', this.innerText)">${ev.desc}</p>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function updateEvent(idx, key, val) {
+      siteData.events[idx][key] = val;
+      saveToStorage();
+    }
+
+    function addEvent() {
+      siteData.events.push({
+        date: "NEW DATE, 2026",
+        title: "New Event Title",
+        desc: "A brief description of this new church event goes here.",
+        img: "https://images.unsplash.com/photo-1478147427282-58a87a120781?auto=format&fit=crop&w=800&q=80"
+      });
+      saveToStorage();
+      renderEvents();
+    }
+
+    function deleteEvent(idx) {
+      siteData.events.splice(idx, 1);
+      saveToStorage();
+      renderEvents();
+    }
+
+    // Render Gallery
+    function renderGallery() {
+      const container = document.getElementById('gallery-grid');
+      container.innerHTML = "";
+      siteData.gallery.forEach((url, idx) => {
+        container.innerHTML += `
+          <div class="gallery-item admin-editable" style="position:relative;">
+            <button class="delete-card-btn" onclick="deleteGalleryItem(${idx})">×</button>
+            <img src="${url}" alt="Gallery image" id="gallery-img-${idx}">
+            <button class="image-edit-overlay" onclick="triggerImageEdit('gallery-img-${idx}')">Edit</button>
+          </div>
+        `;
+      });
+    }
+
+    function addGalleryImage() {
+      siteData.gallery.push("https://images.unsplash.com/photo-1478147427282-58a87a120781?auto=format&fit=crop&w=500&q=80");
+      saveToStorage();
+      renderGallery();
+    }
+
+    function deleteGalleryItem(idx) {
+      siteData.gallery.splice(idx, 1);
+      saveToStorage();
+      renderGallery();
+    }
+
+    // LOCAL STORAGE HANDLER
+    function saveToStorage() {
+      localStorage.setItem('cml_kottiyoor_data', JSON.stringify(siteData));
+    }
+
+    // NAV CONTROL
+    function toggleNav(state) {
+      const nav = document.getElementById('nav-overlay');
+      if (state) {
+        nav.classList.add('active');
+      } else {
+        nav.classList.remove('active');
+      }
+    }
+
+    // ADMIN LOGIN
+    function promptAdminLogin() {
+      const pwd = prompt("Enter Admin Password to enable editing:");
+      if (pwd === "CMLKTYRSCST") {
+        isAdmin = true;
+        toggleNav(false);
+        document.body.classList.add('admin-active');
+        document.getElementById('admin-bar').style.display = 'flex';
+        renderAll();
+        alert("Admin Mode activated successfully! You can now click and edit text directly on the page, or hover over images to replace them.");
+      } else if (pwd !== null) {
+        alert("Invalid Password!");
+      }
+    }
+
+    function exitAdminMode() {
+      isAdmin = false;
+      document.body.classList.remove('admin-active');
+      document.getElementById('admin-bar').style.display = 'none';
+      renderAll();
+    }
+
+    // IMAGE UPLOADER MODAL LOGIC
+    function triggerImageEdit(elementId, isHeroBg = false) {
+      imageTargetElement = elementId;
+      isBgImageTarget = isHeroBg;
+      
+      document.getElementById('local-file-input').value = "";
+      document.getElementById('web-url-input').value = "";
+      document.getElementById('image-modal').style.display = 'flex';
+    }
+
+    function closeImageModal() {
+      document.getElementById('image-modal').style.display = 'none';
+    }
+
+    function applyImageEdit() {
+      const fileInput = document.getElementById('local-file-input');
+      const urlInput = document.getElementById('web-url-input').value.trim();
+
+      if (fileInput.files && fileInput.files[0]) {
+        // Read file as Base64 to save offline in localStorage
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          saveImageSource(e.target.result);
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if (urlInput !== "") {
+        saveImageSource(urlInput);
+      } else {
+        closeImageModal();
+      }
+    }
+
+    function saveImageSource(source) {
+      // Direct element identification
+      if (imageTargetElement === 'site-logo') {
+        siteData.header.logo = source;
+      } else if (imageTargetElement === 'hero-logo-img') {
+        siteData.hero.logo = source;
+      } else if (imageTargetElement === 'about-img-file') {
+        siteData.about.img = source;
+      } else if (isBgImageTarget && imageTargetElement === 'home') {
+        siteData.hero.bgImg = source;
+      } else if (imageTargetElement.startsWith('syndicate-img-')) {
+        const idx = parseInt(imageTargetElement.replace('syndicate-img-', ''));
+        siteData.syndicate.members[idx].img = source;
+      } else if (imageTargetElement.startsWith('executives-img-')) {
+        const idx = parseInt(imageTargetElement.replace('executives-img-', ''));
+        siteData.executives.members[idx].img = source;
+      } else if (imageTargetElement.startsWith('event-img-')) {
+        const idx = parseInt(imageTargetElement.replace('event-img-', ''));
+        siteData.events[idx].img = source;
+      } else if (imageTargetElement.startsWith('gallery-img-')) {
+        const idx = parseInt(imageTargetElement.replace('gallery-img-', ''));
+        siteData.gallery[idx] = source;
+      }
+
+      saveToStorage();
+      renderAll();
+      closeImageModal();
+    }
+
+    // EXPORT ALL HTML CODE (Includes edited data backed inside)
+    function exportCode() {
+      // Get complete self-contained HTML page
+      let currentHTML = document.documentElement.outerHTML;
+
+      // Update defaultData block in script to match current edited siteData
+      const originalScript = `const defaultData = {`;
+      const currentDataString = `const defaultData = ${JSON.stringify(siteData, null, 2)};`;
+      
+      // Inject the current states as defaults inside download package
+      let editedHTML = currentHTML.replace(/const defaultData = \{[\s\S]*?\};/, currentDataString);
+
+      // Trigger automatic download of complete index.html file
+      const blob = new Blob([editedHTML], { type: 'text/html' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = "index.html";
+      link.click();
+    }
+  </script>
+</body>
+</html>
